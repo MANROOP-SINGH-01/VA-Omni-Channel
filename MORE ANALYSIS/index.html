@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Omni-Channel Retail Intelligence Platform</title>
+  <meta name="description" content="Sales and Customer Intelligence Dashboard analyzing 50,000 orders across channels, customers, and markets.">
+  
+  <!-- Typography: Outfit, Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Modern Executive Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css?v=rexora7">
+
+  <!-- External CDNs: PapaParse & Apache ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div id="loading-status-text" class="loading-text">Loading Analytical Semantic Model...</div>
+    <div class="loading-subtext">Indexing 50,000 transactions across 5,000 customers and 200 catalog SKUs</div>
+  </div>
+
+  <!-- Dashboard App Layout -->
+  <div class="app-layout">
+    <!-- Sleek Left Navigation Sidebar -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <!-- Sidebar Brand Header -->
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="m19 9-5 5-4-4-3 3"/>
+          </svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-title">Omni-Channel</div>
+          <div class="sidebar-brand-subtitle">Sales Dashboard</div>
+        </div>
+      </div>
+
+      <!-- Navigation Rail Groups -->
+      <nav class="sidebar-nav" aria-label="Primary Navigation">
+        <div class="nav-group-label">Analytics Core</div>
+        <button class="nav-tab active" data-view="command-center" title="Command Center">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          <span class="tab-label">Command Center</span>
+          <span class="tab-badge">Live</span>
+        </button>
+        <button class="nav-tab" data-view="sales" title="Sales & Growth">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          <span class="tab-label">Sales &amp; Growth</span>
+        </button>
+        <button class="nav-tab" data-view="customers" title="Customer Intelligence & RFM">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="tab-label">Customer Intelligence</span>
+        </button>
+        <button class="nav-tab" data-view="products" title="Product Portfolio & BCG Matrix">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          <span class="tab-label">Product &amp; Pricing</span>
+        </button>
+        <button class="nav-tab" data-view="omnichannel" title="Omnichannel & Channel Mix">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+          <span class="tab-label">Omnichannel</span>
+        </button>
+        <button class="nav-tab" data-view="geo" title="Geographic Markets">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="tab-label">Markets &amp; Geo</span>
+        </button>
+
+        <div class="nav-group-label">Data Engineering &amp; Tools</div>
+        <button class="nav-tab" data-view="explorer" title="Entity Explorer">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span class="tab-label">Entity Explorer</span>
+        </button>
+        <button class="nav-tab" data-view="pipeline" title="Data Pipeline & ETL Lineage">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="tab-label">Pipeline &amp; ETL</span>
+          <span class="tab-badge pipeline-badge">50k ETL</span>
+        </button>
+        <button class="nav-tab" data-view="sql" title="SQL Analytics Console">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+          <span class="tab-label">SQL Analytics</span>
+        </button>
+        <button class="nav-tab" data-view="dictionary" title="Data Dictionary & Quality Gate">
+          <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+          <span class="tab-label">Data Dictionary</span>
+        </button>
+
+        <div class="nav-group-label">Executive Reports</div>
+        <button class="nav-tab nav-tab-powerbi" data-view="powerbi" title="Power BI Embedded Report & Portfolio">
+          <span class="pbi-tab-indicator"></span>
+          <span class="tab-label">Power BI Report</span>
+          <span class="tab-badge pbi-badge">PBIX</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer Status -->
+      <div class="sidebar-footer">
+        <div id="db-status-badge" class="status-badge" title="Checking Database Engine...">
+          <span class="status-dot"></span>
+          <span id="db-status-label">In-Memory (50k)</span>
+        </div>
+        <div id="data-health-gate-badge" class="data-health-badge" title="Validation Gate">
+          <span class="health-dot"></span>
+          <span id="data-health-label">HEALTH: Validating</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Container with Sticky Topbar -->
+    <div class="app-content-wrapper">
+      <!-- Executive Top Control Bar -->
+      <header class="app-topbar">
+        <!-- Left: Search & View Title -->
+        <div class="topbar-left">
+          <div class="search-container">
+            <svg class="search-svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="global-search-input" class="search-input" placeholder="Quick find (Customer, Product, City, Channel)..." autocomplete="off">
+            <kbd class="search-kbd">⌘K</kbd>
+            <div id="search-results-dropdown" class="search-results-dropdown"></div>
+          </div>
+        </div>
+
+        <!-- Right: Global Filter Bar & Action Buttons -->
+        <div class="topbar-right">
+          <!-- Compact Global Filters Bar -->
+          <div class="filter-bar">
+            <select id="filter-year" class="filter-select" title="Filter Year"></select>
+            <select id="filter-channel" class="filter-select" title="Filter Channel"></select>
+            <select id="filter-city" class="filter-select" title="Filter City"></select>
+            <select id="filter-category" class="filter-select" title="Filter Category"></select>
+            <select id="filter-segment" class="filter-select" title="Filter Segment"></select>
+            <button id="filter-reset-btn" class="filter-reset-btn" title="Reset All Filters">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 0 1 15.5-6.4L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.4L3 16"/><path d="M3 21v-5h5"/></svg>
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <button id="btn-compare-mode" class="btn-compare" title="Benchmark Variance Comparison">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
+            <span>Compare</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Benchmark Compare Control Bar (Sub-bar when active) -->
+      <div id="compare-bar" class="compare-bar" style="display: none;">
+        <div class="compare-bar-label">
+          <span class="compare-pulse"></span>
+          <span>BENCHMARK COMPARISON</span>
+        </div>
+        <div class="compare-controls">
+          <span class="compare-control-group">
+            <label for="compare-dimension">Dimension:</label>
+            <select id="compare-dimension" class="compare-select">
+              <option value="year">Year (2023 vs 2024)</option>
+              <option value="channel">Channel (Physical Store vs Website)</option>
+              <option value="city">City (Ahmedabad vs Pune)</option>
+              <option value="category">Category (Sports vs Electronics)</option>
+            </select>
+          </span>
+          <span class="compare-control-group">
+            <label for="compare-entity-a">Entity A:</label>
+            <select id="compare-entity-a" class="compare-select"></select>
+          </span>
+          <span class="compare-vs">VS</span>
+          <span class="compare-control-group">
+            <label for="compare-entity-b">Entity B:</label>
+            <select id="compare-entity-b" class="compare-select"></select>
+          </span>
+        </div>
+      </div>
+
+      <!-- Main Content Layout -->
+      <main class="app-main">
+
+    <!-- Compare Mode Side-by-Side Analytics Panel -->
+    <div id="compare-results-panel" class="compare-results-panel" style="display: none;">
+      <div class="compare-panel-header">
+        <div>
+          <h3 id="compare-panel-title" class="compare-panel-title">Comparative Analysis</h3>
+          <div class="compare-panel-sub">Compare revenue, volume, and margins between selected segments</div>
+        </div>
+        <button id="btn-close-compare" class="compare-close-btn">Exit Comparison</button>
+      </div>
+      <div id="compare-metrics-grid" class="compare-metrics-grid"></div>
+      <div class="compare-charts-row">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Metric Variance</h4>
+            <div class="card-subtitle">Entity A vs Entity B across core KPIs</div>
+          </div>
+          <div id="chart-compare-bars" class="chart-container" style="height: 280px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Category Revenue Distribution Comparison</h4>
+            <div class="card-subtitle">Category mix variance between both entities</div>
+          </div>
+          <div id="chart-compare-categories" class="chart-container" style="height: 280px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         VIEW 1: EXECUTIVE COMMAND CENTER
+         ====================================================================== -->
+    <section id="view-command-center" class="view-section active">
+      <!-- Top KPI Row with Dynamic SVG Sparklines (Zero Hardcoded Values) -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Net Revenue</span>
+            <span class="kpi-code">INR</span>
+          </div>
+          <div id="kpi-revenue" class="kpi-value">--</div>
+          <div id="sparkline-revenue" class="kpi-sparkline-wrap"></div>
+          <div class="kpi-footer">
+            <span id="kpi-delta-revenue" class="kpi-delta neutral">--</span>
+            <span class="kpi-period">realized net</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Total Orders</span>
+            <span class="kpi-code">VOLUME</span>
+          </div>
+          <div id="kpi-orders" class="kpi-value">--</div>
+          <div id="sparkline-orders" class="kpi-sparkline-wrap"></div>
+          <div class="kpi-footer">
+            <span id="kpi-delta-orders" class="kpi-delta neutral">--</span>
+            <span class="kpi-period">transactions</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Units Sold</span>
+            <span class="kpi-code">SUM(QTY)</span>
+          </div>
+          <div id="kpi-units" class="kpi-value">--</div>
+          <div id="sparkline-units" class="kpi-sparkline-wrap"></div>
+          <div class="kpi-footer">
+            <span id="kpi-delta-units" class="kpi-delta neutral">--</span>
+            <span class="kpi-period">units moved</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Average Order Value</span>
+            <span class="kpi-code">AOV</span>
+          </div>
+          <div id="kpi-aov" class="kpi-value">--</div>
+          <div id="sparkline-aov" class="kpi-sparkline-wrap"></div>
+          <div class="kpi-footer">
+            <span id="kpi-delta-aov" class="kpi-delta neutral">--</span>
+            <span class="kpi-period">net basket avg</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Customers</span>
+            <span class="kpi-code">ACCOUNTS</span>
+          </div>
+          <div id="kpi-customers" class="kpi-value">--</div>
+          <div id="sparkline-customers" class="kpi-sparkline-wrap"></div>
+          <div class="kpi-footer">
+            <span id="kpi-delta-customers" class="kpi-delta positive">--</span>
+            <span id="kpi-period-cities" class="kpi-period">markets</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Revenue Realization</span>
+            <span class="kpi-code">EFFICIENCY</span>
+          </div>
+          <div id="kpi-realization" class="kpi-value">--</div>
+          <div id="sparkline-realization" class="kpi-sparkline-wrap"></div>
+          <div class="kpi-footer">
+            <span id="kpi-delta-realization" class="kpi-delta positive">--</span>
+            <span id="kpi-period-discount" class="kpi-period">discount impact</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Revenue Trajectory & Order Volume -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Revenue &amp; Order Volume</h2>
+            <div class="card-subtitle">Net revenue and transaction velocity across selected timeframes</div>
+          </div>
+          <div class="chart-toggle-group">
+            <button class="chart-toggle-btn btn-trend-toggle" data-granularity="daily">Daily</button>
+            <button class="chart-toggle-btn btn-trend-toggle" data-granularity="weekly">Weekly</button>
+            <button class="chart-toggle-btn btn-trend-toggle active" data-granularity="monthly">Monthly</button>
+            <button class="chart-toggle-btn btn-trend-toggle" data-granularity="quarterly">Quarterly</button>
+            <button class="chart-toggle-btn btn-trend-toggle" data-granularity="yearly">Yearly</button>
+          </div>
+        </div>
+        <div id="chart-revenue-trend" class="chart-container"></div>
+      </div>
+
+      <!-- Business Health Scorecard & Strategic Findings -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Business Health</h3>
+              <div class="card-subtitle">Performance scores across 6 key operational areas (0 - 100)</div>
+            </div>
+          </div>
+          <div id="health-scorecard-container" class="scorecard-grid"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Key Insights</h3>
+              <div class="card-subtitle">Actionable insights from recent transactions</div>
+            </div>
+          </div>
+          <div id="opportunity-ticker" class="opportunity-ticker-container"></div>
+        </div>
+      </div>
+
+      <!-- Sales Performance & Realization Efficiency Modules -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Channel Sales Performance</h3>
+              <div class="card-subtitle">Revenue, volume, and basket size by channel</div>
+            </div>
+          </div>
+          <div id="rexora-channels-container" class="rexora-channel-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Net Revenue &amp; Discounts</h3>
+              <div class="card-subtitle">Actual revenue realized after discounts</div>
+            </div>
+          </div>
+          <div class="realization-card-inner">
+            <div id="chart-realization-gauge" class="realization-chart-container"></div>
+            <div class="realization-stats-col">
+              <div class="realization-stat-box">
+                <span class="realization-stat-label">Gross Sales (Catalog)</span>
+                <span id="realization-gross-val" class="realization-stat-value">--</span>
+              </div>
+              <div class="realization-stat-box">
+                <span class="realization-stat-label">Promotional Discounts</span>
+                <span id="realization-discount-val" class="realization-stat-value" style="color:var(--accent-rose);">--</span>
+              </div>
+              <div class="realization-stat-box">
+                <span class="realization-stat-label">Net Realized Revenue</span>
+                <span id="realization-net-val" class="realization-stat-value" style="color:var(--accent-emerald);">--</span>
+              </div>
+              <div class="realization-stat-box">
+                <span class="realization-stat-label">Realization Efficiency</span>
+                <span id="realization-pct-val" class="realization-stat-value" style="color:var(--accent-violet);">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top SKUs Summary Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Top Performing SKUs</h3>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Click product name for details</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Net Revenue</th>
+                <th>Units Sold</th>
+                <th>Portfolio Quadrant</th>
+              </tr>
+            </thead>
+            <tbody id="top-products-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW: OUR POWER BI DESKTOP REPORT (.PBIX & PDF)
+         ====================================================================== -->
+    <!-- ======================================================================
+         VIEW: POWER BI DASHBOARD PORTFOLIO SHOWCASE
+         Exact Codebasics Portfolio Showcase Layout & Live Interactive Embed
+         ====================================================================== -->
+    <section id="view-powerbi" class="view-section">
+      <div class="portfolio-modal-container">
+        <!-- Top Project Meta & Slider Row -->
+        <div class="row portfolio-hero-row">
+          <!-- Left Column: Title, Metadata, Badges & Actions -->
+          <div class="col-12 col-xl-5 portfolio-meta-col">
+            <div class="d-flex justify-content-between align-items-center mb-14">
+              <div class="px-16 py-8 bg-soft-primary rounded-2 fs-18 font-manrope fw-700">
+                PowerBI Project
+              </div>
+              <div>
+                <img class="img-fluid thumb-md rounded-pill" src="images/pow-b.png" alt="PowerBI Logo" />
+              </div>
+            </div>
+
+            <h1 class="text-white font-manrope fs-32 fw-800 mb-22">Omni-Channel Retail Sales &amp; Customer Insights</h1>
+            
+            <p class="mb-16 text-gray-300 fs-18 fw-800">
+              Domain/Function: <span class="text-primary fw-800">Retail &amp; E - Commerce</span>
+            </p>
+            
+            <p class="mb-0 text-gray-400 fs-16 fw-500 font-manrope text-break project-summary-lead">
+              📊 Analyzed 12K+ retail sales records using Excel—cleaned data, built KPIs, and designed an interactive dashboard to uncover customer trends, product performance &amp; regional insights for data-driven decisions.
+            </p>
+
+            <!-- Action Buttons (GitHub, .PBIX Download, PDF View) -->
+            <div class="flex-wrap gap-3 mt-24 d-flex align-items-center portfolio-actions-row">
+              <!-- View on GitHub -->
+              <div class="bg-soft-success pe-8 rounded-pill portfolio-action-badge">
+                <div class="d-flex align-items-center">
+                  <div class="d-block me-12">
+                    <a href="https://github.com/MANROOP-SINGH-01/VA-Omni-Channel" target="_blank" rel="noopener noreferrer" class="btn btn-github btn-icon-md btn-round" title="View Source Repository">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </a>
+                  </div>
+                  <p class="mb-0 text-white fs-14 me-12 lh-n">View Project<br>on GitHUB</p>
+                </div>
+              </div>
+
+              <!-- Download .PBIX -->
+              <div class="bg-soft-primary pe-8 rounded-pill portfolio-action-badge">
+                <div class="d-flex align-items-center">
+                  <div class="d-block me-12">
+                    <a href="Sales Analytics Dashboard.pbix" download="Sales Analytics Dashboard.pbix" class="btn btn-primary-round btn-icon-md btn-round" title="Download .pbix file">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    </a>
+                  </div>
+                  <p class="mb-0 text-white fs-14 me-12 lh-n">Download .PBIX<br>(2.65 MB)</p>
+                </div>
+              </div>
+
+              <!-- Other Tools -->
+              <div class="col-12 mt-20">
+                <h6 class="text-white fs-24 font-manrope mb-14 fw-800">Other Tools</h6>
+                <div class="flex-wrap gap-3 mb-20 d-flex justify-content-start align-items-center">
+                  <span class="px-16 py-8 d-flex bg-soft-primary rounded-2 fs-18 font-manrope fw-600">MySQL</span>
+                  <span class="px-16 py-8 d-flex bg-soft-primary rounded-2 fs-18 font-manrope fw-600">Power BI Desktop</span>
+                  <span class="px-16 py-8 d-flex bg-soft-primary rounded-2 fs-18 font-manrope fw-600">DAX Measures</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Report Slide Preview -->
+          <div class="col-12 col-xl-7 mt-30 mt-xl-0 portfolio-slider-col">
+            <div class="port-slider">
+              <div class="port-slider-card">
+                <!-- Slide 1 -->
+                <div class="pbi-slider-slide active" id="pbi-slide-1">
+                  <picture>
+                    <img class="d-block mx-auto w-p90 rounded-2 shadow-lg" src="images/pbi_slide1.jpg" alt="Interactive Sales Analytics Dashboard - Page 1: Revenue Trends" loading="lazy" />
+                  </picture>
+                  <p class="mx-auto mt-14 text-justify fs-16 font-manrope w-p80 text-gray-300">
+                    Interactive Sales Analytics Dashboard showing KPIs, trends, top products, sales channels &amp; payment insights for smarter retail decisions.
+                  </p>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="pbi-slider-slide" id="pbi-slide-2" style="display: none;">
+                  <picture>
+                    <img class="d-block mx-auto w-p90 rounded-2 shadow-lg" src="images/pbi_slide2.jpg" alt="Sales Dashboard - Page 2: Customer Behavior Analysis" loading="lazy" />
+                  </picture>
+                  <p class="mx-auto mt-14 text-justify fs-16 font-manrope w-p80 text-gray-300">
+                    Sales Dashboard with KPIs, category trends, geo sales map, yearly items sold &amp; customer-level insights for smarter retail decisions.
+                  </p>
+                </div>
+
+                <!-- Slide Navigation Dots / Switcher -->
+                <div class="slider-controls-bar d-flex justify-content-center align-items-center gap-3 mt-16">
+                  <button id="pbi-btn-slide-prev" class="slider-nav-arrow" title="Previous Page">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+                  <div class="slider-page-pill">
+                    <button class="slider-pill-btn active" data-slide="1">Page 1: Revenue Trends</button>
+                    <button class="slider-pill-btn" data-slide="2">Page 2: Customer Behavior</button>
+                  </div>
+                  <button id="pbi-btn-slide-next" class="slider-nav-arrow" title="Next Page">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="portfolio-divider" />
+
+        <!-- Project Details & Live Interactive Dashboard -->
+        <div class="row mt-34">
+          <div class="col-12">
+            <h6 class="text-white fs-24 font-manrope mb-14 fw-800">Project Details</h6>
+            <div class="text-gray-300 mb-30 mb-xl-0 fs-16 font-manrope project-details-body">
+              <p class="mb-12">📊 Completed an end-to-end Retail Sales Data Analysis project using SQL &amp; Power BI on 12K+ records.</p>
+              <ul class="project-details-list">
+                <li>The project involved data cleaning, KPI creation, and building an interactive dashboard with slicers, charts.</li>
+                <li>Key insights included identifying top-performing products, high-value customers, seasonal demand trends, and regional sales performance.</li>
+                <li>Based on the findings, I recommended stock optimization, region-specific marketing, and customer-focused loyalty strategies.</li>
+                <li>This project highlights my skills in data analysis, visualization, and business problem-solving while turning raw data into actionable insights for decision-making.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Live Interactive Dashboard Section -->
+          <div class="col-12">
+            <div class="live-dashboard-header d-flex justify-content-between align-items-center mt-40 mb-14 mt-xl-80">
+              <h6 class="text-white fs-24 font-manrope mb-0 fw-800">Live Interactive Dashboard</h6>
+              <div class="d-flex align-items-center gap-2">
+                <button id="btn-pbi-view-live" class="btn-pbi-switch active" title="Live Interactive Power BI Web View">Live Interactive</button>
+                <button id="btn-pbi-view-pdf" class="btn-pbi-switch" title="View Full High-Resolution PDF">PDF Report View</button>
+                <button id="btn-pbi-toggle-custom-url" class="btn-pbi-switch" title="Set Custom Power BI Service URL">Custom URL</button>
+                <button id="btn-pbi-fullscreen-portal" class="btn-pbi-switch btn-pbi-fullscreen-btn" title="Toggle Fullscreen">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                  Fullscreen
+                </button>
+              </div>
+            </div>
+
+            <!-- Custom URL Input Bar (collapsible) -->
+            <div id="pbi-custom-url-bar" class="pbi-custom-url-bar" style="display: none;">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <label for="pbi-custom-embed-input" class="text-white fs-14 fw-600">Your Power BI Service Embed URL:</label>
+                <input type="url" id="pbi-custom-embed-input" class="pbi-url-input" placeholder="https://app.powerbi.com/view?r=..." />
+                <button id="btn-apply-custom-url" class="btn-url-apply">Save &amp; Load</button>
+                <button id="btn-reset-default-url" class="btn-url-reset">Reset to Default</button>
+              </div>
+              <p class="pbi-url-hint text-gray-400 fs-12 mt-1">
+                To generate your own URL: In Power BI Desktop, click <b>Publish &rarr; My Workspace</b>, then in Power BI online click <b>File &rarr; Embed report &rarr; Publish to web (public)</b>.
+              </p>
+            </div>
+
+            <!-- 16:9 Aspect Ratio Embed Frame -->
+            <div class="ratio ratio-16x9 portfolio-embed-container" id="pbi-embed-container">
+              <iframe id="pbi-portfolio-iframe" 
+                      src="https://app.powerbi.com/view?r=eyJrIjoiMWUxMzM0ZmEtNTQ1My00MzhhLThhOTUtOGNkYjE1MTA4NjBiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9" 
+                      title="Omni-Channel Retail Sales &amp; Customer Insights" 
+                      allowfullscreen="true"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 2: SALES & MOMENTUM
+         ====================================================================== -->
+    <section id="view-sales" class="view-section">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Month-over-Month Revenue Growth (%)</h3>
+          </div>
+          <div id="chart-mom-growth" class="chart-container"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Day-of-Week Revenue Distribution</h3>
+          </div>
+          <div id="chart-day-of-week-bar" class="chart-container"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Day-of-Week × Month Seasonality Heatmap</h3>
+            <div class="card-subtitle">Transaction intensity patterns across calendar months and days of the week</div>
+          </div>
+        </div>
+        <div id="chart-seasonality-heatmap" class="chart-container"></div>
+      </div>
+
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Payment Method Revenue Share</h3>
+          </div>
+          <div id="chart-payment-bar" class="chart-container-sm"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Monthly Trajectory Summary</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th>Revenue</th>
+                  <th>Orders</th>
+                  <th>Cust.</th>
+                  <th>AOV</th>
+                  <th>MoM %</th>
+                </tr>
+              </thead>
+              <tbody id="sales-growth-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 3: CUSTOMER COHORTS & RFM
+         ====================================================================== -->
+    <section id="view-customers" class="view-section">
+      <!-- Customer Value Scatter Plot -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Customer Value Matrix (Frequency vs Monetary Spend)</h2>
+            <div class="card-subtitle">Scatter distribution: X = Orders Count, Y = Total Spend, Size = AOV, Color = RFM Segment. Click any point to inspect profile.</div>
+          </div>
+        </div>
+        <div id="chart-customer-scatter" class="chart-container-tall"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">RFM Segment Revenue Contribution</h3>
+          </div>
+          <div id="chart-rfm-donut" class="chart-container-sm"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Customer Retention Purchase Funnel</h3>
+          </div>
+          <div id="chart-customer-funnel" class="chart-container-sm"></div>
+        </div>
+      </div>
+
+      <!-- Cohort Retention Heatmap Matrix -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Acquisition Cohort Retention Matrix</h3>
+            <div class="card-subtitle">Retention percentage across Month 0 to Month 6 post-first-order</div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Cohort Month</th>
+                <th>Cohort Size</th>
+                <th>Month 0</th>
+                <th>Month 1</th>
+                <th>Month 2</th>
+                <th>Month 3</th>
+                <th>Month 4</th>
+                <th>Month 5</th>
+                <th>Month 6</th>
+              </tr>
+            </thead>
+            <tbody id="cohort-matrix-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RFM Summary Scorecard -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">RFM Strategic Segment Breakdown</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Segment</th>
+                <th>Customers</th>
+                <th>Revenue</th>
+                <th>Share %</th>
+                <th>Avg Spend</th>
+                <th>Avg AOV</th>
+                <th>Avg Orders</th>
+              </tr>
+            </thead>
+            <tbody id="rfm-summary-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 4: PRODUCT PORTFOLIO (BCG)
+         ====================================================================== -->
+    <section id="view-products" class="view-section">
+      <!-- BCG Matrix Scatter -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">BCG Product Portfolio Matrix (Volume vs Revenue)</h2>
+            <div class="card-subtitle">X = Units Sold, Y = Net Revenue. Quadrants: Stars, Premium, Volume Drivers, Underperformers.</div>
+          </div>
+        </div>
+        <div id="chart-bcg-scatter" class="chart-container-tall"></div>
+      </div>
+
+      <!-- 80/20 Pareto Curve -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">80/20 Pareto Curve: Catalog Revenue Concentration</h3>
+            <div class="card-subtitle">Cumulative revenue % generated by ranked products against the 80% threshold</div>
+          </div>
+        </div>
+        <div id="chart-pareto-curve" class="chart-container"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Price Band Demand &amp; Revenue</h3>
+          </div>
+          <div id="chart-price-bands-bar" class="chart-container-sm"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Discount Elasticity &amp; Margin Drag</h3>
+          </div>
+          <div id="chart-discount-elasticity" class="chart-container-sm"></div>
+        </div>
+      </div>
+
+      <!-- Product Catalog Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Ranked Product Portfolio Catalog</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Unit Price</th>
+                <th>Net Revenue</th>
+                <th>Units Sold</th>
+                <th>AOV</th>
+                <th>Quadrant</th>
+              </tr>
+            </thead>
+            <tbody id="product-catalog-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 5: OMNICHANNEL DYNAMICS
+         ====================================================================== -->
+    <section id="view-omnichannel" class="view-section">
+      <!-- The Omnichannel Multiplier -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">The Omnichannel Multiplier: Customer Spend by Channels Adopted</h2>
+            <div class="card-subtitle">Comparing average lifetime customer spend and order frequency across 1 to 5 channel adoption tiers</div>
+          </div>
+        </div>
+        <div id="chart-omnichannel-multiplier" class="chart-container"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Channel Crossover Dynamics (First ➔ Subsequent Channel)</h3>
+          </div>
+          <div id="chart-channel-crossover" class="chart-container"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Multichannel Adoption Tier Ladder</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Adoption Tier</th>
+                  <th>Customers</th>
+                  <th>Total Spend</th>
+                  <th>Rev Share</th>
+                  <th>Avg Spend</th>
+                  <th>Avg Orders</th>
+                  <th>AOV</th>
+                </tr>
+              </thead>
+              <tbody id="omnichannel-adoption-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Channel Scorecard Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Sales Channel Performance Scorecard</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Channel</th>
+                <th>Revenue</th>
+                <th>Share %</th>
+                <th>Orders</th>
+                <th>Cust.</th>
+                <th>AOV</th>
+                <th>Discount %</th>
+                <th>Rev/Cust</th>
+              </tr>
+            </thead>
+            <tbody id="channel-scorecard-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 6: GEOGRAPHIC MARKETS
+         ====================================================================== -->
+    <section id="view-geo" class="view-section">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Metro City Net Revenue Hierarchy</h3>
+          </div>
+          <div id="chart-city-revenue-bar" class="chart-container"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">City × Category Revenue Heatmap</h3>
+          </div>
+          <div id="chart-city-category-heatmap" class="chart-container"></div>
+        </div>
+      </div>
+
+      <!-- City Performance Scorecard -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Geographic Metro Market Performance &amp; Strategic Matrix</h3>
+            <div class="card-subtitle">Classified into Core Markets, High Value, and Growth Opportunities</div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>City (Metro)</th>
+                <th>Revenue</th>
+                <th>Customers</th>
+                <th>Orders</th>
+                <th>AOV</th>
+                <th>Rev / Cust</th>
+                <th>Discount %</th>
+                <th>Strategic Classification</th>
+              </tr>
+            </thead>
+            <tbody id="city-scorecard-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 7: ENTITY EXPLORER
+         ====================================================================== -->
+    <section id="view-explorer" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Entity Explorer: Drill-Down Directory</h2>
+            <div class="card-subtitle">Search, filter, and inspect detailed profiles across all customers, products, cities, and channels</div>
+          </div>
+          <div class="card-controls">
+            <input type="text" id="explorer-filter-input" class="search-input" style="max-width: 260px;" placeholder="Filter entities by name..." />
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Entity Identifier / Name</th>
+                <th>Category / Context</th>
+                <th>Realized Revenue</th>
+                <th>Order Volume</th>
+                <th>Units Moved</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="explorer-table-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW: SQL ANALYTICS (POSTGRESQL WAREHOUSE)
+         ====================================================================== -->
+    <section id="view-sql" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">PostgreSQL 18 Warehouse &amp; Analytical View Console</h2>
+            <div class="card-subtitle">Execute verified production SQL queries directly against the local PostgreSQL engine</div>
+          </div>
+          <div class="status-badge" id="sql-db-indicator">
+            <span class="status-dot"></span>
+            <span>Database: retail_intelligence</span>
+          </div>
+        </div>
+        <div class="sql-console">
+          <div class="sql-preset-bar">
+            <button class="sql-preset-btn active" data-query="kpis">vw_executive_kpis</button>
+            <button class="sql-preset-btn" data-query="channels">vw_channel_scorecard</button>
+            <button class="sql-preset-btn" data-query="rfm">vw_rfm_segment_summary</button>
+            <button class="sql-preset-btn" data-query="cities">vw_city_market_rankings</button>
+            <button class="sql-preset-btn" data-query="trends">vw_monthly_trends</button>
+          </div>
+          <div class="sql-editor-container" id="sql-query-display">SELECT * FROM vw_executive_kpis;</div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Execution Engine: PostgreSQL 18.6 • Read-Only Analytical Access</span>
+            <button id="btn-run-sql-query" class="filter-reset-btn" style="color:var(--accent-violet);border-color:var(--accent-violet);">▶ Execute Query</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Query Results Output</h3>
+          <span id="sql-result-meta" style="font-size: 0.75rem; color: var(--text-muted);">Fetched 0 records</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="sql-results-table">
+            <thead id="sql-results-thead"></thead>
+            <tbody id="sql-results-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW: DATA DICTIONARY & VALIDATION GATE
+         ====================================================================== -->
+    <section id="view-dictionary" class="view-section">
+      <!-- Data Validation Gate Card -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Startup Data Validation Gate</h2>
+            <div class="card-subtitle">Pre-render structural and relational sanity verification across loaded datasets</div>
+          </div>
+          <div id="validation-overall-badge" class="data-health-badge">
+            <span class="health-dot"></span>
+            <span>DATA HEALTH: PASSED</span>
+          </div>
+        </div>
+        <div id="validation-checks-grid" class="evidence-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));"></div>
+      </div>
+
+      <!-- Metric Definitions Table -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Central Metric Definitions (Single Source of Truth)</h3>
+            <div class="card-subtitle">Standardized mathematical formulas enforced across UI, SQL views, and Power BI models</div>
+          </div>
+        </div>
+        <div class="definitions-table-wrap">
+          <table class="definitions-table">
+            <thead>
+              <tr>
+                <th>Metric Name</th>
+                <th>Mathematical Formula</th>
+                <th>Underlying Dataset Columns</th>
+                <th>Business Purpose &amp; Context</th>
+              </tr>
+            </thead>
+            <tbody id="metric-definitions-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 11: END-TO-END DATA PIPELINE & ETL ARCHITECTURE
+         ====================================================================== -->
+    <!-- ======================================================================
+         VIEW 11: END-TO-END DATA PIPELINE & ETL ARCHITECTURE (DIAGRAMMATIC)
+         ====================================================================== -->
+    <section id="view-pipeline" class="view-section">
+      <!-- 1. Pipeline Overview & System Flow Header -->
+      <div class="card pipeline-hero-card">
+        <div class="card-header">
+          <div>
+            <div class="pipeline-super-badge">PRODUCTION DATA PLATFORM LINEAGE</div>
+            <h2 class="card-title" style="font-size: 1.35rem; margin-top: 4px;">End-to-End Retail Data Architecture &amp; ETL DAG</h2>
+            <div class="card-subtitle">Visual lineage graph: from raw multi-source ingestion through hygiene assertion, star schema modeling, and feature engineering to analytical serving</div>
+          </div>
+          <div class="pipeline-hero-stats">
+            <div class="pipe-stat-chip">
+              <span class="chip-dot" style="background:#10b981;"></span>
+              <span class="chip-label">ENGINE:</span>
+              <span class="chip-val">In-Memory 50k Stream</span>
+            </div>
+            <div class="pipe-stat-chip">
+              <span class="chip-dot" style="background:#38bdf8;"></span>
+              <span class="chip-label">LATENCY:</span>
+              <span class="chip-val">&lt; 45ms Init</span>
+            </div>
+            <div class="pipe-stat-chip">
+              <span class="chip-dot" style="background:#8b5cf6;"></span>
+              <span class="chip-label">INTEGRITY:</span>
+              <span class="chip-val">100% Deterministic</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Pipeline Architecture DAG (Horizontal Interactive Pipeline) -->
+        <div class="dag-pipeline-wrapper">
+          <div class="dag-pipeline-track">
+            
+            <!-- STAGE 01: Sources -->
+            <div class="dag-stage-node active" id="dag-node-1" data-stage="1" onclick="PipelineView.selectStage(1)" tabindex="0" role="button" aria-label="Stage 1: Raw Data Ingestion">
+              <div class="dag-node-pulse"></div>
+              <div class="dag-node-header">
+                <span class="dag-node-tag">STAGE 01</span>
+                <span class="dag-status-pill cyan">3 RAW CSVs</span>
+              </div>
+              <div class="dag-node-body">
+                <div class="dag-node-icon icon-cyan">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <div class="dag-node-info">
+                  <h4 class="dag-node-title">1. Raw Ingestion</h4>
+                  <div class="dag-node-sub">Read CSV Sources</div>
+                </div>
+              </div>
+              <div class="dag-node-chips">
+                <span class="dag-chip">50k Orders</span>
+                <span class="dag-chip">5k Customers</span>
+                <span class="dag-chip">200 Products</span>
+              </div>
+            </div>
+
+            <!-- Connector 1-2 -->
+            <div class="dag-connector">
+              <div class="dag-connector-line"><span class="dag-particle"></span></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+
+            <!-- STAGE 02: Validation Gate -->
+            <div class="dag-stage-node" id="dag-node-2" data-stage="2" onclick="PipelineView.selectStage(2)" tabindex="0" role="button" aria-label="Stage 2: Data Quality & Cleaning">
+              <div class="dag-node-pulse"></div>
+              <div class="dag-node-header">
+                <span class="dag-node-tag">STAGE 02</span>
+                <span class="dag-status-pill green">100% VALID</span>
+              </div>
+              <div class="dag-node-body">
+                <div class="dag-node-icon icon-emerald">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 12 14 22 4"/></svg>
+                </div>
+                <div class="dag-node-info">
+                  <h4 class="dag-node-title">2. Clean &amp; Validate</h4>
+                  <div class="dag-node-sub">10-Point Sanity Check</div>
+                </div>
+              </div>
+              <div class="dag-node-chips">
+                <span class="dag-chip">0 Missing IDs</span>
+                <span class="dag-chip">No Negative Prices</span>
+                <span class="dag-chip">ISO Date Formatting</span>
+              </div>
+            </div>
+
+            <!-- Connector 2-3 -->
+            <div class="dag-connector">
+              <div class="dag-connector-line"><span class="dag-particle"></span></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+
+            <!-- STAGE 03: Relational Modeling -->
+            <div class="dag-stage-node" id="dag-node-3" data-stage="3" onclick="PipelineView.selectStage(3)" tabindex="0" role="button" aria-label="Stage 3: Star Schema Data Modeling">
+              <div class="dag-node-pulse"></div>
+              <div class="dag-node-header">
+                <span class="dag-node-tag">STAGE 03</span>
+                <span class="dag-status-pill purple">STAR MODEL</span>
+              </div>
+              <div class="dag-node-body">
+                <div class="dag-node-icon icon-violet">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div class="dag-node-info">
+                  <h4 class="dag-node-title">3. Star Schema</h4>
+                  <div class="dag-node-sub">Fast In-Memory Relational Graph</div>
+                </div>
+              </div>
+              <div class="dag-node-chips">
+                <span class="dag-chip">1 Orders Fact Table</span>
+                <span class="dag-chip">5 Dimension Lookups</span>
+                <span class="dag-chip">Instant Drill-down</span>
+              </div>
+            </div>
+
+            <!-- Connector 3-4 -->
+            <div class="dag-connector">
+              <div class="dag-connector-line"><span class="dag-particle"></span></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+
+            <!-- STAGE 04: Feature Engineering -->
+            <div class="dag-stage-node" id="dag-node-4" data-stage="4" onclick="PipelineView.selectStage(4)" tabindex="0" role="button" aria-label="Stage 4: Business Metrics & Segmentation">
+              <div class="dag-node-pulse"></div>
+              <div class="dag-node-header">
+                <span class="dag-node-tag">STAGE 04</span>
+                <span class="dag-status-pill amber">METRICS</span>
+              </div>
+              <div class="dag-node-body">
+                <div class="dag-node-icon icon-amber">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="dag-node-info">
+                  <h4 class="dag-node-title">4. Compute Metrics</h4>
+                  <div class="dag-node-sub">Segments &amp; Financial KPIs</div>
+                </div>
+              </div>
+              <div class="dag-node-chips">
+                <span class="dag-chip">6 RFM Customer Tiers</span>
+                <span class="dag-chip">4-Quadrant BCG Matrix</span>
+                <span class="dag-chip">85% Net Realization</span>
+              </div>
+            </div>
+
+            <!-- Connector 4-5 -->
+            <div class="dag-connector">
+              <div class="dag-connector-line"><span class="dag-particle"></span></div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+
+            <!-- STAGE 05: Serving Layer -->
+            <div class="dag-stage-node" id="dag-node-5" data-stage="5" onclick="PipelineView.selectStage(5)" tabindex="0" role="button" aria-label="Stage 5: Interactive Dashboards & Reports">
+              <div class="dag-node-pulse"></div>
+              <div class="dag-node-header">
+                <span class="dag-node-tag">STAGE 05</span>
+                <span class="dag-status-pill rose">DASHBOARDS</span>
+              </div>
+              <div class="dag-node-body">
+                <div class="dag-node-icon icon-rose">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <div class="dag-node-info">
+                  <h4 class="dag-node-title">5. Dashboards</h4>
+                  <div class="dag-node-sub">Live Visual Reports</div>
+                </div>
+              </div>
+              <div class="dag-node-chips">
+                <span class="dag-chip">11 SaaS Views</span>
+                <span class="dag-chip">Interactive Power BI</span>
+                <span class="dag-chip">In-Browser SQL</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Interactive Stage Inspector Details Bar (Dynamically populated) -->
+        <div id="dag-stage-inspector" class="dag-stage-inspector"></div>
+      </div>
+
+      <!-- 2. Interactive Star Schema ER Architecture Diagram -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="pipeline-super-badge">RELATIONAL DATA MODEL (STAR SCHEMA)</div>
+            <h3 class="card-title">How Data Tables Connect Together</h3>
+            <div class="card-subtitle">Every purchase in the center connects to Customers, Products, Sales Channels, Cities, and Dates. Click or hover any table to see fields.</div>
+          </div>
+          <div class="schema-legend">
+            <span class="legend-item"><span class="pk-icon">PK</span> Primary ID</span>
+            <span class="legend-item"><span class="fk-icon">FK</span> Linking ID</span>
+            <span class="legend-item"><span class="measure-icon">M</span> Number / Measure</span>
+            <span class="legend-item"><span class="deriv-tag">CALC</span> Derived Label</span>
+          </div>
+        </div>
+
+        <div class="er-star-canvas">
+          <!-- Top Row: Customer Dimension & Product Dimension -->
+          <div class="er-dim-row">
+            <!-- Dim Customers -->
+            <div class="er-table-box dim-table">
+              <div class="er-table-top">
+                <div class="er-table-badge dim">DIMENSION</div>
+                <div class="er-table-name">Customers (dim_customers)</div>
+                <div class="er-table-rows">5,000 shoppers</div>
+              </div>
+              <div class="er-table-fields">
+                <div class="er-field pk"><span class="pk-icon">PK</span> CustomerID <span class="ftype">ID</span></div>
+                <div class="er-field">CustomerName <span class="ftype">Text</span></div>
+                <div class="er-field">Location (City) <span class="ftype">City</span></div>
+                <div class="er-field">JoinDate <span class="ftype">Date</span></div>
+                <div class="er-field">LoyaltyPoints <span class="ftype">Points</span></div>
+                <div class="er-field derived"><span class="deriv-tag">CALC</span> RFM_Segment <span class="ftype">Tier</span></div>
+              </div>
+              <div class="er-cardinality-badge top-right" title="1 Customer links to Many Orders">1</div>
+            </div>
+
+            <!-- Dim Channels -->
+            <div class="er-table-box dim-table">
+              <div class="er-table-top">
+                <div class="er-table-badge dim">DIMENSION</div>
+                <div class="er-table-name">Sales Channels (dim_channels)</div>
+                <div class="er-table-rows">5 channels</div>
+              </div>
+              <div class="er-table-fields">
+                <div class="er-field pk"><span class="pk-icon">PK</span> ChannelID <span class="ftype">ID</span></div>
+                <div class="er-field">SalesChannel <span class="ftype">Name</span></div>
+                <div class="er-field">ChannelType <span class="ftype">Online / Offline</span></div>
+                <div class="er-field">TakeRate / Margin <span class="ftype">%</span></div>
+              </div>
+              <div class="er-cardinality-badge bottom-right" title="1 Channel links to Many Orders">1</div>
+            </div>
+
+            <!-- Dim Products -->
+            <div class="er-table-box dim-table">
+              <div class="er-table-top">
+                <div class="er-table-badge dim">DIMENSION</div>
+                <div class="er-table-name">Products (dim_products)</div>
+                <div class="er-table-rows">200 items</div>
+              </div>
+              <div class="er-table-fields">
+                <div class="er-field pk"><span class="pk-icon">PK</span> ProductID <span class="ftype">ID</span></div>
+                <div class="er-field">ProductName <span class="ftype">Item Name</span></div>
+                <div class="er-field">Category <span class="ftype">Category</span></div>
+                <div class="er-field">UnitPrice <span class="ftype">₹ Price</span></div>
+                <div class="er-field derived"><span class="deriv-tag">CALC</span> BCG_Quadrant <span class="ftype">Growth Tier</span></div>
+              </div>
+              <div class="er-cardinality-badge top-left" title="1 Product links to Many Orders">1</div>
+            </div>
+          </div>
+
+          <!-- Middle Hub: Central Fact Table -->
+          <div class="er-fact-hub-wrapper">
+            <div class="er-bridge-left">
+              <div class="er-link-desc">1 Customer → Many Orders</div>
+              <div class="er-svg-wire">
+                <svg width="100%" height="24" preserveAspectRatio="none"><line x1="0" y1="12" x2="100%" y2="12" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 3"/></svg>
+              </div>
+            </div>
+
+            <!-- CENTRAL FACT TABLE -->
+            <div class="er-table-box fact-table">
+              <div class="er-table-top fact-header">
+                <div class="er-table-badge fact">CENTRAL FACT</div>
+                <div class="er-table-name">All Orders (fact_orders)</div>
+                <div class="er-table-rows">50,000 transactions</div>
+              </div>
+              <div class="er-table-fields">
+                <div class="er-field pk"><span class="pk-icon">PK</span> OrderID <span class="ftype">Transaction ID</span></div>
+                <div class="er-field fk"><span class="fk-icon">FK</span> CustomerID <span class="ftype">Links to Customer</span></div>
+                <div class="er-field fk"><span class="fk-icon">FK</span> ProductID <span class="ftype">Links to Product</span></div>
+                <div class="er-field fk"><span class="fk-icon">FK</span> SalesChannel <span class="ftype">Links to Channel</span></div>
+                <div class="er-field">OrderDate <span class="ftype">Date of Sale</span></div>
+                <div class="er-field measure"><span class="measure-icon">M</span> Quantity <span class="ftype">Items Bought</span></div>
+                <div class="er-field measure"><span class="measure-icon">M</span> UnitPrice <span class="ftype">Base Price</span></div>
+                <div class="er-field measure"><span class="measure-icon">M</span> Discount <span class="ftype">Discount Saved</span></div>
+                <div class="er-field measure"><span class="measure-icon">M</span> TotalAmount (Net Rev) <span class="ftype">Actual Paid</span></div>
+                <div class="er-field">PaymentMethod <span class="ftype">UPI / Card / Cash</span></div>
+                <div class="er-field derived"><span class="deriv-tag">CALC</span> Gross = Qty × UnitPrice <span class="ftype">Before Discount</span></div>
+              </div>
+              <div class="er-cardinality-badge center-infinity" title="Central table holds Many transactions">∞</div>
+            </div>
+
+            <div class="er-bridge-right">
+              <div class="er-link-desc">Many Orders → 1 Product</div>
+              <div class="er-svg-wire">
+                <svg width="100%" height="24" preserveAspectRatio="none"><line x1="0" y1="12" x2="100%" y2="12" stroke="#10b981" stroke-width="2" stroke-dasharray="6 3"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Date Dimension & Geography Dimension -->
+          <div class="er-dim-row">
+            <!-- Dim Date -->
+            <div class="er-table-box dim-table">
+              <div class="er-table-top">
+                <div class="er-table-badge dim">DIMENSION</div>
+                <div class="er-table-name">Calendar Dates (dim_date)</div>
+                <div class="er-table-rows">1,095 days (2022-2024)</div>
+              </div>
+              <div class="er-table-fields">
+                <div class="er-field pk"><span class="pk-icon">PK</span> DateKey / OrderDate <span class="ftype">YYYY-MM-DD</span></div>
+                <div class="er-field">Year (2022 - 2024) <span class="ftype">Year</span></div>
+                <div class="er-field">Quarter (Q1 - Q4) <span class="ftype">Quarter</span></div>
+                <div class="er-field">MonthNum &amp; MonthName <span class="ftype">Month</span></div>
+                <div class="er-field">DayOfWeek &amp; WeekendFlag <span class="ftype">Day / Weekend</span></div>
+              </div>
+              <div class="er-cardinality-badge bottom-left" title="1 Calendar Date links to Many Orders">1</div>
+            </div>
+
+            <!-- Dim Geography -->
+            <div class="er-table-box dim-table">
+              <div class="er-table-top">
+                <div class="er-table-badge dim">DIMENSION</div>
+                <div class="er-table-name">Store Metros (dim_geography)</div>
+                <div class="er-table-rows">8 Metros</div>
+              </div>
+              <div class="er-table-fields">
+                <div class="er-field pk"><span class="pk-icon">PK</span> CityName / Location <span class="ftype">City</span></div>
+                <div class="er-field">Region (West, North, South, East) <span class="ftype">Zone</span></div>
+                <div class="er-field">MetroTier (Tier 1) <span class="ftype">Tier</span></div>
+                <div class="er-field">Coordinates (Lat, Lng) <span class="ftype">Map Point</span></div>
+              </div>
+              <div class="er-cardinality-badge bottom-center" title="1 Location links to Many Orders">1</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3. Transformation Flowcards (Input -> Rule -> Output) -->
+      <div class="grid-3">
+        <div class="card transform-flow-card">
+          <div class="transform-card-header">
+            <span class="transform-badge">FORMULA 01</span>
+            <h4>Revenue Realization &amp; Margin</h4>
+          </div>
+          <div class="flow-step-box">
+            <span class="flow-step-label">RAW INPUT VALUES</span>
+            <div class="flow-pills">
+              <code>Quantity</code>
+              <code>UnitPrice</code>
+              <code>Discount</code>
+            </div>
+          </div>
+          <div class="flow-arrow-down">↓ HOW IT IS CALCULATED</div>
+          <div class="flow-step-box active-rule">
+            <div class="flow-formula">Gross Revenue = Quantity × UnitPrice</div>
+            <div class="flow-formula">Discount% = (Discount ÷ Gross) × 100</div>
+            <div class="flow-formula">Net Collected = Gross − Discount</div>
+          </div>
+          <div class="flow-arrow-down">↓ FINAL BUSINESS RESULT</div>
+          <div class="flow-step-box outcome-box">
+            <div class="outcome-val">₹306.84M Net Realized</div>
+            <div class="outcome-sub">85.0% revenue collected (₹54.17M given in discounts)</div>
+          </div>
+        </div>
+
+        <div class="card transform-flow-card">
+          <div class="transform-card-header">
+            <span class="transform-badge purple">FORMULA 02</span>
+            <h4>Customer Segmentation (RFM)</h4>
+          </div>
+          <div class="flow-step-box">
+            <span class="flow-step-label">RAW INPUT VALUES</span>
+            <div class="flow-pills">
+              <code>Last Order Date (Recency)</code>
+              <code>Total Orders (Frequency)</code>
+              <code>Total Spent (Monetary)</code>
+            </div>
+          </div>
+          <div class="flow-arrow-down">↓ HOW IT IS CALCULATED</div>
+          <div class="flow-step-box active-rule">
+            <div class="flow-formula">Score Recency 1 to 5 (How recently they bought)</div>
+            <div class="flow-formula">Score Frequency 1 to 5 (How often they buy)</div>
+            <div class="flow-formula">Score Monetary 1 to 5 (How much they spend)</div>
+          </div>
+          <div class="flow-arrow-down">↓ FINAL BUSINESS RESULT</div>
+          <div class="flow-step-box outcome-box">
+            <div class="outcome-val">6 Customer Groups</div>
+            <div class="outcome-sub">Champions (Top Spenders), Loyal, At-Risk, Lapsed...</div>
+          </div>
+        </div>
+
+        <div class="card transform-flow-card">
+          <div class="transform-card-header">
+            <span class="transform-badge amber">FORMULA 03</span>
+            <h4>Product Growth-Share Matrix</h4>
+          </div>
+          <div class="flow-step-box">
+            <span class="flow-step-label">RAW INPUT VALUES</span>
+            <div class="flow-pills">
+              <code>Total Units Sold</code>
+              <code>Total Revenue</code>
+              <code>Catalog Medians</code>
+            </div>
+          </div>
+          <div class="flow-arrow-down">↓ HOW IT IS CALCULATED</div>
+          <div class="flow-step-box active-rule">
+            <div class="flow-formula">High Units &amp; High Revenue = Star Product</div>
+            <div class="flow-formula">Low Units &amp; High Revenue = Premium Niche</div>
+            <div class="flow-formula">High Units &amp; Low Revenue = Volume Driver</div>
+          </div>
+          <div class="flow-arrow-down">↓ FINAL BUSINESS RESULT</div>
+          <div class="flow-step-box outcome-box">
+            <div class="outcome-val">4 Product Action Quadrants</div>
+            <div class="outcome-sub">Stars, Cash Cows, Premium Niche, Underperformers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Interactive Raw Data Inspector with Tabs (Zero Undefined Columns) -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="pipeline-super-badge">SCHEMA VERIFICATION</div>
+            <h3 class="card-title">Live Raw Data Inspector</h3>
+            <div class="card-subtitle">Inspect parsed in-memory tuples directly from the 3 CSV sources</div>
+          </div>
+          <div class="pipeline-tab-group">
+            <button class="pipeline-tab-btn active" id="tab-btn-orders" onclick="PipelineView.switchTab('orders')">orders.csv (50,000)</button>
+            <button class="pipeline-tab-btn" id="tab-btn-customers" onclick="PipelineView.switchTab('customers')">customers.csv (5,000)</button>
+            <button class="pipeline-tab-btn" id="tab-btn-products" onclick="PipelineView.switchTab('products')">products.csv (200)</button>
+          </div>
+        </div>
+
+        <!-- Orders Tab Content -->
+        <div id="pipe-tab-orders" class="pipeline-tab-content active">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>OrderID</th>
+                  <th>CustomerID</th>
+                  <th>ProductID</th>
+                  <th>OrderDate</th>
+                  <th>Quantity</th>
+                  <th>UnitPrice</th>
+                  <th>Discount</th>
+                  <th>TotalAmount</th>
+                  <th>SalesChannel</th>
+                  <th>PaymentMethod</th>
+                </tr>
+              </thead>
+              <tbody id="pipe-sample-orders-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Customers Tab Content -->
+        <div id="pipe-tab-customers" class="pipeline-tab-content">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>CustomerID</th>
+                  <th>CustomerName</th>
+                  <th>Location</th>
+                  <th>JoinDate</th>
+                  <th>LoyaltyPoints</th>
+                  <th>Segment (Calculated)</th>
+                </tr>
+              </thead>
+              <tbody id="pipe-sample-customers-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Products Tab Content -->
+        <div id="pipe-tab-products" class="pipeline-tab-content">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ProductID</th>
+                  <th>ProductName</th>
+                  <th>Category</th>
+                  <th>UnitPrice</th>
+                  <th>BCG Quadrant (Calculated)</th>
+                </tr>
+              </thead>
+              <tbody id="pipe-sample-products-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+    </div><!-- /.app-content-wrapper -->
+  </div><!-- /.app-layout -->
+
+  <!-- Slide-Over Entity Inspector Drawer -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+  <aside id="entity-drawer" class="entity-drawer" aria-label="Entity Inspector">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <h3 id="drawer-title" class="drawer-title">Entity Details</h3>
+        <div id="drawer-subtitle" class="drawer-subtitle">Profile Inspector</div>
+      </div>
+      <button id="drawer-close-btn" class="drawer-close-btn" title="Close Drawer">✕</button>
+    </div>
+    <div id="drawer-body" class="drawer-body"></div>
+  </aside>
+
+  <!-- Slide-Over Evidence Drawer -->
+  <div id="evidence-drawer-overlay" class="evidence-drawer-overlay"></div>
+  <aside id="evidence-drawer" class="evidence-drawer" aria-label="Evidence Inspector">
+    <div class="evidence-header">
+      <div class="evidence-header-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <span id="evidence-title">Insight Evidence Trail</span>
+      </div>
+      <button id="evidence-close-btn" class="evidence-close-btn" title="Close Evidence Drawer">✕</button>
+    </div>
+    <div class="evidence-body" id="evidence-body"></div>
+  </aside>
+
+  <!-- Application Logic Modules -->
+  <script src="js/data_loader.js?v=rexora7"></script>
+  <script src="js/analytics_engine.js?v=rexora7"></script>
+  <script src="js/charts.js?v=rexora7"></script>
+  <script src="js/components/filter_bar.js?v=rexora7"></script>
+  <script src="js/components/search.js?v=rexora7"></script>
+  <script src="js/components/entity_drawer.js?v=rexora7"></script>
+  <script src="js/views/command_center.js?v=rexora7"></script>
+  <script src="js/views/powerbi_view.js?v=rexora7"></script>
+  <script src="js/views/sales_view.js?v=rexora7"></script>
+  <script src="js/views/customer_view.js?v=rexora7"></script>
+  <script src="js/views/product_view.js?v=rexora7"></script>
+  <script src="js/views/omnichannel_view.js?v=rexora7"></script>
+  <script src="js/views/geo_view.js?v=rexora7"></script>
+  <script src="js/views/explorer_view.js?v=rexora7"></script>
+  <script src="js/views/sql_view.js?v=rexora7"></script>
+  <script src="js/views/dictionary_view.js?v=rexora7"></script>
+  <script src="js/views/pipeline_view.js?v=rexora7"></script>
+  <script src="js/app.js?v=rexora7"></script>
+</body>
+</html>

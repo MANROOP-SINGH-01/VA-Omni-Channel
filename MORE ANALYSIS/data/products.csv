@@ -1,0 +1,201 @@
+ProductID,ProductName,Category,UnitPrice
+PROD0001,Product_1,Sports & Fitness,1163.53
+PROD0002,Product_2,Home & Kitchen,1268.04
+PROD0003,Product_3,Sports & Fitness,1550.26
+PROD0004,Product_4,Sports & Fitness,3558.98
+PROD0005,Product_5,Fashion,4864.7
+PROD0006,Product_6,Home & Kitchen,3151.33
+PROD0007,Product_7,Sports & Fitness,4570.55
+PROD0008,Product_8,Electronics,4440.57
+PROD0009,Product_9,Home & Kitchen,1412.23
+PROD0010,Product_10,Sports & Fitness,4059.85
+PROD0011,Product_11,Home & Kitchen,4737.03
+PROD0012,Product_12,Sports & Fitness,2111.85
+PROD0013,Product_13,Beauty & Personal Care,2891.1
+PROD0014,Product_14,Beauty & Personal Care,463.6
+PROD0015,Product_15,Beauty & Personal Care,1699.96
+PROD0016,Product_16,Sports & Fitness,819.16
+PROD0017,Product_17,Sports & Fitness,1935.18
+PROD0018,Product_18,Sports & Fitness,4997.67
+PROD0019,Product_19,Beauty & Personal Care,377.99
+PROD0020,Product_20,Home & Kitchen,631.19
+PROD0021,Product_21,Beauty & Personal Care,1385.66
+PROD0022,Product_22,Home & Kitchen,3057.06
+PROD0023,Product_23,Beauty & Personal Care,1172.43
+PROD0024,Product_24,Sports & Fitness,2105.45
+PROD0025,Product_25,Electronics,1720.12
+PROD0026,Product_26,Home & Kitchen,3887.62
+PROD0027,Product_27,Electronics,1921.73
+PROD0028,Product_28,Fashion,766.54
+PROD0029,Product_29,Electronics,3420.71
+PROD0030,Product_30,Home & Kitchen,3080.65
+PROD0031,Product_31,Sports & Fitness,1319.36
+PROD0032,Product_32,Beauty & Personal Care,4637.5
+PROD0033,Product_33,Sports & Fitness,3592.56
+PROD0034,Product_34,Home & Kitchen,1259.58
+PROD0035,Product_35,Home & Kitchen,2946.33
+PROD0036,Product_36,Electronics,2398.02
+PROD0037,Product_37,Fashion,293.74
+PROD0038,Product_38,Beauty & Personal Care,4481.27
+PROD0039,Product_39,Electronics,3400.04
+PROD0040,Product_40,Beauty & Personal Care,3233.91
+PROD0041,Product_41,Beauty & Personal Care,3829.33
+PROD0042,Product_42,Beauty & Personal Care,322.33
+PROD0043,Product_43,Beauty & Personal Care,333.99
+PROD0044,Product_44,Home & Kitchen,416.07
+PROD0045,Product_45,Home & Kitchen,2966.16
+PROD0046,Product_46,Home & Kitchen,2307.21
+PROD0047,Product_47,Home & Kitchen,4757.56
+PROD0048,Product_48,Sports & Fitness,926.4
+PROD0049,Product_49,Home & Kitchen,4573.19
+PROD0050,Product_50,Home & Kitchen,1712.99
+PROD0051,Product_51,Beauty & Personal Care,1782.83
+PROD0052,Product_52,Fashion,3806.85
+PROD0053,Product_53,Sports & Fitness,1431.02
+PROD0054,Product_54,Electronics,4742.24
+PROD0055,Product_55,Sports & Fitness,2323.77
+PROD0056,Product_56,Home & Kitchen,4655.28
+PROD0057,Product_57,Fashion,3523.52
+PROD0058,Product_58,Electronics,2048.84
+PROD0059,Product_59,Electronics,1905.59
+PROD0060,Product_60,Fashion,2839.55
+PROD0061,Product_61,Home & Kitchen,4081.44
+PROD0062,Product_62,Sports & Fitness,145.65
+PROD0063,Product_63,Sports & Fitness,3904.24
+PROD0064,Product_64,Sports & Fitness,3254.01
+PROD0065,Product_65,Sports & Fitness,626.2
+PROD0066,Product_66,Fashion,3198.35
+PROD0067,Product_67,Fashion,354.37
+PROD0068,Product_68,Fashion,3849.07
+PROD0069,Product_69,Home & Kitchen,4100.71
+PROD0070,Product_70,Home & Kitchen,2350.42
+PROD0071,Product_71,Electronics,1760.8
+PROD0072,Product_72,Sports & Fitness,4543.1
+PROD0073,Product_73,Electronics,381.41
+PROD0074,Product_74,Electronics,1725.93
+PROD0075,Product_75,Beauty & Personal Care,4152.27
+PROD0076,Product_76,Electronics,2423.52
+PROD0077,Product_77,Electronics,2574.02
+PROD0078,Product_78,Electronics,4720.4
+PROD0079,Product_79,Sports & Fitness,804.05
+PROD0080,Product_80,Sports & Fitness,4910.26
+PROD0081,Product_81,Beauty & Personal Care,2473.52
+PROD0082,Product_82,Beauty & Personal Care,2594.35
+PROD0083,Product_83,Electronics,2704.48
+PROD0084,Product_84,Fashion,4252.53
+PROD0085,Product_85,Electronics,2535.24
+PROD0086,Product_86,Beauty & Personal Care,3985.32
+PROD0087,Product_87,Sports & Fitness,1098.91
+PROD0088,Product_88,Home & Kitchen,1590.72
+PROD0089,Product_89,Sports & Fitness,1321.68
+PROD0090,Product_90,Electronics,3981.64
+PROD0091,Product_91,Fashion,1358.87
+PROD0092,Product_92,Home & Kitchen,3512.86
+PROD0093,Product_93,Sports & Fitness,4255.09
+PROD0094,Product_94,Home & Kitchen,1823.34
+PROD0095,Product_95,Fashion,2104.87
+PROD0096,Product_96,Sports & Fitness,4377.87
+PROD0097,Product_97,Sports & Fitness,4730.49
+PROD0098,Product_98,Fashion,4205.91
+PROD0099,Product_99,Fashion,3662.35
+PROD0100,Product_100,Sports & Fitness,2536.76
+PROD0101,Product_101,Beauty & Personal Care,2571.13
+PROD0102,Product_102,Home & Kitchen,198.99
+PROD0103,Product_103,Electronics,1233.96
+PROD0104,Product_104,Beauty & Personal Care,1998.91
+PROD0105,Product_105,Electronics,3342.08
+PROD0106,Product_106,Home & Kitchen,2843.39
+PROD0107,Product_107,Home & Kitchen,2807.34
+PROD0108,Product_108,Fashion,4511.61
+PROD0109,Product_109,Fashion,4821.52
+PROD0110,Product_110,Beauty & Personal Care,2895.24
+PROD0111,Product_111,Sports & Fitness,4640.1
+PROD0112,Product_112,Electronics,1492.89
+PROD0113,Product_113,Sports & Fitness,4158.72
+PROD0114,Product_114,Fashion,2292.95
+PROD0115,Product_115,Beauty & Personal Care,4230.56
+PROD0116,Product_116,Electronics,158.02
+PROD0117,Product_117,Fashion,2031.48
+PROD0118,Product_118,Electronics,1668.56
+PROD0119,Product_119,Fashion,2826.27
+PROD0120,Product_120,Electronics,3511.65
+PROD0121,Product_121,Beauty & Personal Care,1825.24
+PROD0122,Product_122,Fashion,3375.05
+PROD0123,Product_123,Home & Kitchen,3599.81
+PROD0124,Product_124,Sports & Fitness,2105.57
+PROD0125,Product_125,Beauty & Personal Care,507.79
+PROD0126,Product_126,Beauty & Personal Care,3874.91
+PROD0127,Product_127,Fashion,667.42
+PROD0128,Product_128,Beauty & Personal Care,1776.87
+PROD0129,Product_129,Electronics,3396.45
+PROD0130,Product_130,Beauty & Personal Care,265.81
+PROD0131,Product_131,Electronics,3602.75
+PROD0132,Product_132,Electronics,2251.64
+PROD0133,Product_133,Home & Kitchen,2068.27
+PROD0134,Product_134,Fashion,3003.77
+PROD0135,Product_135,Sports & Fitness,4219.06
+PROD0136,Product_136,Fashion,2553.16
+PROD0137,Product_137,Electronics,4676.17
+PROD0138,Product_138,Sports & Fitness,4169.54
+PROD0139,Product_139,Sports & Fitness,4635.29
+PROD0140,Product_140,Electronics,2689.88
+PROD0141,Product_141,Electronics,4196.75
+PROD0142,Product_142,Beauty & Personal Care,2337.8
+PROD0143,Product_143,Electronics,593.6
+PROD0144,Product_144,Sports & Fitness,3169.17
+PROD0145,Product_145,Home & Kitchen,1783.24
+PROD0146,Product_146,Fashion,835.05
+PROD0147,Product_147,Fashion,2844.85
+PROD0148,Product_148,Fashion,2321.73
+PROD0149,Product_149,Sports & Fitness,565.83
+PROD0150,Product_150,Sports & Fitness,2183.04
+PROD0151,Product_151,Fashion,4559.74
+PROD0152,Product_152,Electronics,1119.38
+PROD0153,Product_153,Sports & Fitness,2840.96
+PROD0154,Product_154,Home & Kitchen,539.44
+PROD0155,Product_155,Beauty & Personal Care,1139.87
+PROD0156,Product_156,Sports & Fitness,4829.1
+PROD0157,Product_157,Home & Kitchen,1932.86
+PROD0158,Product_158,Fashion,3699
+PROD0159,Product_159,Home & Kitchen,2193.28
+PROD0160,Product_160,Home & Kitchen,184.26
+PROD0161,Product_161,Beauty & Personal Care,2442.9
+PROD0162,Product_162,Beauty & Personal Care,2560.14
+PROD0163,Product_163,Home & Kitchen,362.02
+PROD0164,Product_164,Beauty & Personal Care,2075.64
+PROD0165,Product_165,Electronics,934.15
+PROD0166,Product_166,Electronics,4924.1
+PROD0167,Product_167,Home & Kitchen,4677.79
+PROD0168,Product_168,Beauty & Personal Care,2603.57
+PROD0169,Product_169,Beauty & Personal Care,932.24
+PROD0170,Product_170,Home & Kitchen,1915.88
+PROD0171,Product_171,Sports & Fitness,1552.1
+PROD0172,Product_172,Beauty & Personal Care,3914.22
+PROD0173,Product_173,Beauty & Personal Care,4234.9
+PROD0174,Product_174,Fashion,3244.07
+PROD0175,Product_175,Fashion,3755.26
+PROD0176,Product_176,Sports & Fitness,971.12
+PROD0177,Product_177,Sports & Fitness,4593.36
+PROD0178,Product_178,Electronics,2412.1
+PROD0179,Product_179,Beauty & Personal Care,1521.3
+PROD0180,Product_180,Fashion,3155.07
+PROD0181,Product_181,Electronics,4679.14
+PROD0182,Product_182,Beauty & Personal Care,3586.1
+PROD0183,Product_183,Fashion,3579.46
+PROD0184,Product_184,Beauty & Personal Care,556.56
+PROD0185,Product_185,Fashion,3393.31
+PROD0186,Product_186,Sports & Fitness,2608.06
+PROD0187,Product_187,Fashion,3459.77
+PROD0188,Product_188,Sports & Fitness,1864.74
+PROD0189,Product_189,Beauty & Personal Care,3023.88
+PROD0190,Product_190,Sports & Fitness,2169.68
+PROD0191,Product_191,Electronics,3935.84
+PROD0192,Product_192,Fashion,667.59
+PROD0193,Product_193,Beauty & Personal Care,224.2
+PROD0194,Product_194,Electronics,3681.68
+PROD0195,Product_195,Fashion,4728.42
+PROD0196,Product_196,Home & Kitchen,2552.1
+PROD0197,Product_197,Fashion,3384.67
+PROD0198,Product_198,Sports & Fitness,4751.64
+PROD0199,Product_199,Home & Kitchen,1877.96
+PROD0200,Product_200,Home & Kitchen,1412.52
