@@ -15,25 +15,29 @@ from psycopg2.extras import RealDictCursor
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 DB_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'user': 'postgres',
-    'password': 'nigga',
-    'dbname': 'retail_intelligence'
+    'host': os.environ.get('DB_HOST', 'localhost'),
+    'port': int(os.environ.get('DB_PORT', 5432)),
+    'user': os.environ.get('DB_USER', 'postgres'),
+    'password': os.environ.get('DB_PASSWORD', 'nigga'),
+    'dbname': os.environ.get('DB_NAME', 'retail_intelligence')
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def get_db_connection():
     try:
+        if DATABASE_URL:
+            return psycopg2.connect(DATABASE_URL, connect_timeout=10)
         return psycopg2.connect(
             host=DB_CONFIG['host'],
             port=DB_CONFIG['port'],
             user=DB_CONFIG['user'],
             password=DB_CONFIG['password'],
             dbname=DB_CONFIG['dbname'],
-            connect_timeout=3
+            connect_timeout=10
         )
     except Exception as e:
         print(f"PostgreSQL connection error: {e}", file=sys.stderr)
@@ -63,6 +67,14 @@ class RetailIntelligenceHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def handle_api(self, path, query):
+        if path == '/api/health':
+            self.send_json({
+                'status': 'healthy',
+                'service': 'retail-intelligence-api',
+                'engine': 'Python 3 / PostgreSQL 18'
+            }, 200)
+            return
+
         conn = get_db_connection()
         if not conn:
             self.send_json({
@@ -212,5 +224,5 @@ def run(port=8000):
     httpd.serve_forever()
 
 if __name__ == '__main__':
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
+    port = int(os.environ.get('PORT', sys.argv[1] if len(sys.argv) > 1 else 8000))
     run(port)
