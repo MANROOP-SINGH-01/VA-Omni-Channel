@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://retail-intelligence-api-nakz.onrender.com/api/$1" },
+    { "source": "/", "destination": "/MORE%20ANALYSIS/index.html" },
+    { "source": "/(.*)", "destination": "/MORE%20ANALYSIS/$1" }
+  ]
+}
